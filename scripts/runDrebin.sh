@@ -11,11 +11,18 @@ malwareDir=$2
 goodwareDir=$3
 numIterations=$4
 
-pythonMain="${drebinDir}Main.py"
+currentDir=$(pwd)
+androguardPath="$HOME/malware-classification/drebin/src/Androguard/"
+
+pythonMain="Main.py"
 
 echo "$pythonMain"
 
-for i in $(seq 1 $numIterations)
+cd "${drebinDir}" || { printf "cd failed (invalid drebin directory provided), exiting\n" >&2;  return 1; }
+
+for i in $(seq 1 "$numIterations")
 do
-	python ${pythonDir} --holdout 0 --maldir ${malwareDir} --gooddir ${goodwareDir}
+	PYTHONPATH="${androguardPath}" python "${pythonMain}" --holdout 0 --maldir "${malwareDir}" --gooddir "${goodwareDir}"
 done
+
+cd "${currentDir}" || { printf "cd failed??? (this should not happen), exiting\n" >&2;  return 1; }
