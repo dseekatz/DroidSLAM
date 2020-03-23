@@ -15,7 +15,7 @@ Run the datasetSetup.sh script from the project root directory, which will autom
 **IMPORTANT:** Running this script will result in the download of ~300GB of Android APK files and may take *several* hours.
 
 ## Partitioning the datasets
-For reproducing out experiments, a set of 5 different partitions has been provided in the partitions directory.  Each partition has a 70/30 split between training and testing data.  If you would like to create your own partitions, see the partition.sh script.
+For reproducing our experiments, a set of 5 different partitions has been provided in the partitions directory.  Each partition has a 70/30 split between training and testing data.  If you would like to create your own partitions, see the partition.sh script.
 
 ## Running the experiments
 TODO
