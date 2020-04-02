@@ -7,9 +7,7 @@
 # Currently not working... something with the directory structure, or just a stupid bash error?
 
 drebinDir="$1/src/"
-malwareDir=$(realpath $2)
-goodwareDir=$(realpath $3)
-numIterations=$4
+outputDir=$2
 
 currentDir=$(pwd)
 
@@ -19,13 +17,18 @@ drebinPath="${modulePath}:${androguardPath}"
 
 pythonMain="Main.py"
 
-echo "$pythonMain"
-
 cd "${drebinDir}" || { printf "cd failed (invalid drebin directory provided), exiting\n" >&2;  return 1; }
 
-for i in $(seq 1 "$numIterations")
+for i in {1..5}
 do
-	PYTHONPATH="${drebinPath}" python "${pythonMain}" --holdout 0 --maldir "${malwareDir}" --gooddir "${goodwareDir}" --model "drebin${i}"
+	echo "Running Drebin on partition ${i} of 5"
+
+	malwareTrainingDir=../../data-partitions/malware/training_${i}
+	goodwareTrainingDir=../../data-partitions/goodware/training_${i}
+	malwareTestingDir=../../data-partitions/malware/testing_${i}
+	goodwareTestingDir=../../data-partitions/goodware/testing_${i}
+
+	PYTHONPATH="${drebinPath}" python "${pythonMain}" --holdout 1 --maldir "${malwareTrainingDir}" --gooddir "${goodwareTrainingDir}" --testmaldir "${malwareTestingDir}" --testgooddir "${goodwareTestingDir}" --model "drebin${i}" 2>/dev/null 1>../../${outputDir}/drebin${i}.out
 done
 
 cd "${currentDir}" || { printf "cd failed??? (this should not happen), exiting\n" >&2;  return 1; }
