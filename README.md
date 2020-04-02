@@ -6,7 +6,7 @@ This repository contains everything necessary to reproduce the results of our re
 ## Prerequisites
 To reproduce this project's results, you must have access to the [Drebin dataset](https://www.sec.cs.tu-bs.de/~danarp/drebin/) as well as [Androzoo](https://androzoo.uni.lu/).  See the respective websites for instructions on how to request access.
 
-## Obtaining Drebin, Mudflow, and Multi-flow
+## Obtaining Drebin and Mudflow
 TODO
 
 ## Downloading the necessary datasets
