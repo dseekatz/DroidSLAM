@@ -2,7 +2,7 @@
 
 originalDir=$(pwd)
 
-if [[ -d mudflow ]] ; then
+if [[ -d mudflow/mudflow-statistical-analysis ]] ; then
 	echo "Mudflow directory already exists... no need to clone repo"
 else
 	mkdir mudflow && cd mudflow
