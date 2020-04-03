@@ -7,7 +7,7 @@ This repository contains everything necessary to reproduce the results of our re
 To reproduce this project's results, you must have access to the [Drebin dataset](https://www.sec.cs.tu-bs.de/~danarp/drebin/) as well as [Androzoo](https://androzoo.uni.lu/).  See the respective websites for instructions on how to request access.
 
 ## Obtaining Drebin and Mudflow
-TODO
+To obtain all the tools required for this study, run getAllTools.sh from the project root directory.  This will clone the source for each tool and perform any required setup. 
 
 ## Downloading the necessary datasets
 Run the datasetSetup.sh script from the project root directory, which will automatically download and extract the Drebin dataset as well as our Androzoo subset.
