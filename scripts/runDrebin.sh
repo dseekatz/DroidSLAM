@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# Run Drebin a given number of times, currently with a random training/testing split
-# TODO: make the training/testing splits not random, to allow comparison across 
-# different tools.
-
-# Currently not working... something with the directory structure, or just a stupid bash error?
+# Run Drebin 5 times, once with each pre-determined training/testing split
 
 drebinDir="$1/src/"
 outputDir=$2
+modelNamesFile=$(realpath $3)
 
 currentDir=$(pwd)
 
@@ -28,7 +25,7 @@ do
 	malwareTestingDir=../../data-partitions/malware/testing_${i}
 	goodwareTestingDir=../../data-partitions/goodware/testing_${i}
 
-	PYTHONPATH="${drebinPath}" python "${pythonMain}" --holdout 1 --maldir "${malwareTrainingDir}" --gooddir "${goodwareTrainingDir}" --testmaldir "${malwareTestingDir}" --testgooddir "${goodwareTestingDir}" --model "drebin${i}" 1>../../${outputDir}/drebin${i}.out 2>&1
+	PYTHONPATH="${drebinPath}" python "${pythonMain}" --holdout 1 --maldir "${malwareTrainingDir}" --gooddir "${goodwareTrainingDir}" --testmaldir "${malwareTestingDir}" --testgooddir "${goodwareTestingDir}" <${modelNamesFile} 1>../../${outputDir}/drebin${i}.out 2>&1
 done
 
 cd "${currentDir}" || { printf "cd failed??? (this should not happen), exiting\n" >&2;  return 1; }
