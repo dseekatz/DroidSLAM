@@ -18,6 +18,10 @@ Run the datasetSetup.sh script from the project root directory, which will autom
 For reproducing our experiments, a set of 5 different partitions has been provided in the partitions directory.  Each partition has a 70/30 split between training and testing data.  If you would like to create your own partitions, see the partition.sh script.
 
 ## Running the experiments
+### Drebin
+Simply run the runDrebinSimple.sh script in the root directory.  The script will create five models, one for each partition, and the output will be saved in a newly created `output/drebin/` directory.  The first time this script is run, it will take several hours to complete as drebin must analyze each apk file.  So for a first run, it's best to leave the script to run overnight.  Subsequent runs will be much faster (on the order of minutes).
+
+### Mudflow
 TODO
 
 ## Outputing results
