@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Running the required mudflow analysis before applying the classifier
-# For now, just a playground to figure out how this stuff works
+# Parallelized so it can finish within 24 hours
+# Ideally, the timeout would be more like 300 seconds rather than 60, but I don't have that kind of time
 
-# This should be provided as an argument and not hardcoded?
+# This should be provided as an argument and not hardcoded maybe?
 androidPlatforms="$ANDROID_HOME/platforms"
 
 dirToAnalyze=$(realpath -s $1)
@@ -13,7 +14,7 @@ cd mudflow
 
 mkdir -p logging
 
-# Abandon all hope...
+# 
 # An attempt at an explanation:
 # 1) Find all .apk files in the directory to analyze
 # 	2) Pipe that to xargs to run 50 parallel commands of the following template
@@ -33,20 +34,3 @@ find ${dirToAnalyze} -name '*.apk' | \
 	"sh" "${androidPlatforms}"
 
 cd ${originalDir}
-
-#for apkToAnalyze in ${dirToAnalyze}/*.apk ; do
-#
-#	outputFileName="../output/mudflow/goodware/$(basename "${apkToAnalyze}" .apk)_results.xml"
-#
-#	echo "Analyzing ${apkToAnalyze}"
-#	timeout 60 java -Xmx8g -cp "libs/*" soot.jimple.infoflow.android.TestApps.Test ${apkToAnalyze} ${androidPlatforms} > logging/${apkToAnalyze}.log 2>&1
-#	
-#	if [ ! -f ${outputFileName} ] ; then
-#		echo "Analysis of ${apkToAnalyze} timed out!"
-#	else
-#		echo "Finished analyzing ${apkToAnalyze}"
-#	fi
-#
-#done
-#
-#cd ${originalDir}
