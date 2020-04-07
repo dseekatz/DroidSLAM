@@ -14,7 +14,6 @@ cd mudflow
 
 mkdir -p logging
 
-# 
 # An attempt at an explanation:
 # 1) Find all .apk files in the directory to analyze
 # 	2) Pipe that to xargs to run 50 parallel commands of the following template
@@ -25,12 +24,17 @@ mkdir -p logging
 #		7) write the executed command to stdout, so that I can make sure things are working properly
 #	8) pass arguments to the subshell.  "sh" is a dummy argument used to preserve the convention of $0=scriptName, $1=VAR1, etc...
 find ${dirToAnalyze} -name '*.apk' | \
-	xargs -n 1 -I{} -P 50 \
+	xargs -n 1 -I{} -P 100 \
 	sh -c \
-		'timeout 60 \
-		java -Xmx8g -cp "libs/*" soot.jimple.infoflow.android.TestApps.Test {} ${1} \
+	'echo "{}"
+	if [ ! -f ../output/mudflow/${2}/$(basename {} .apk)_results.xml ] ; then
+		timeout 60 \
+		java -Xmx8g -cp "libs/*" soot.jimple.infoflow.android.TestApps.Test {} ${1} --saveresults ../output/mudflow/${2} \
 		> logging/$(basename {}).log 2>& 1 \
-		&& echo "Finished java -Xmx8g -cp "libs/*" soot.jimple.infoflow.android.TestApps.Test {} ${1}"' \
-	"sh" "${androidPlatforms}"
+		&& echo "Finished analyzing {}"
+	else
+		echo "Already analyzed {}"
+	fi' \
+	"sh" "${androidPlatforms}" "$(basename ${dirToAnalyze})"
 
 cd ${originalDir}
